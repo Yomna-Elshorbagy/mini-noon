@@ -38,6 +38,11 @@ subcategorySchema.pre("updateMany", function (next) {
   next();
 });
 
+subcategorySchema.pre("updateOne", function (next) {
+  if (this._update.name)
+    this._update.slug = slugify(this._update.name, { lower: true });
+  next();
+});
 const subcategoryModel = mongoose.model("subcategory", subcategorySchema);
 
 export default subcategoryModel;

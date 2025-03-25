@@ -22,7 +22,7 @@ export const attachUpdateQuery = (model,  fieldName = "slug", paramName = "slug"
 
 export const attachDeleteQuery = (model) => {
 	return (req, res, next) => {
-		req.dbQuery = model.deleteMany(); 
+		req.dbQuery = model.deleteMany(req.dbQuery?._conditions || {}); 
 		next()
 	}
 }

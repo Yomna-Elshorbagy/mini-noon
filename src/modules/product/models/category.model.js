@@ -38,6 +38,12 @@ categorySchema.pre("updateMany", function (next) {
   next();
 });
 
+categorySchema.pre("updateOne", function (next) {
+  if (this._update.name)
+    this._update.slug = slugify(this._update.name, { lower: true });
+  next();
+});
+
 const categoryModel = mongoose.model("category", categorySchema);
 
 export default categoryModel;
