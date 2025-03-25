@@ -9,7 +9,7 @@ import categoryModel from "../models/category.model.js";
 import { executeQuery } from "../../../handlers/execute.handler.js";
 import { filterOne } from "../../../middlewares/features.middleware.js";
 import { validate } from "../../../middlewares/validation.middleware.js";
-import { addCategorySchema } from "../validations/category.validations.js";
+import { addCategorySchema, deleteCategorySchema, updateCategorySchema } from "../validations/category.validations.js";
 import subcategoriesRouter from './subcategory.routes.js'
 
 const router = Router();
@@ -28,6 +28,16 @@ router
   .get(
     attachFindQuery(categoryModel),
     filterOne({ fieldName: "slug", paramName: "categorySlug" }),
+    executeQuery()
+  ).put(
+    validate(updateCategorySchema),
+    attachUpdateQuery(categoryModel),
+    filterOne({ fieldName: "slug",paramName: "categorySlug" }),
+    executeQuery()
+  ).delete(
+    validate(deleteCategorySchema),
+    attachDeleteQuery(categoryModel),
+    filterOne({ fieldName: "slug",paramName: "categorySlug" }),
     executeQuery()
   );
 

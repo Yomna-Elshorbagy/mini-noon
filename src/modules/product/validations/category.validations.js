@@ -1,23 +1,23 @@
-import Joi from 'joi'
+import Joi from "joi";
 
 export const addCategorySchema = Joi.object({
-	body: {
-		name: Joi.string().min(3).max(200).trim().required(),
-	},
-	params: {},
-	query: {},
-})
+  body: {
+    name: Joi.string().min(3).max(200).trim().required(),
+  },
+  params: {},
+  query: {},
+});
 
 export const updateCategorySchema = Joi.object({
-	body: {
-		name: Joi.string().min(3).max(200).trim(),
-	},
-	params: { categorySlug: Joi.string().required() },
-	query: {},
-})
+  body: {
+    name: Joi.string().min(3).max(200).trim(),
+  },
+  params: { categorySlug: Joi.string().required() }, //changed according to api
+  query: {},
+});
 
 export const deleteCategorySchema = Joi.object({
-	body: {},
-	params: { categorySlug: Joi.string().required() },
-	query: {},
-})
+  body: {},
+  params: { categorySlug: Joi.string().required() },
+  query: {},
+});

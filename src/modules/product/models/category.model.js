@@ -32,10 +32,11 @@ categorySchema.pre("save", function (next) {
   next();
 });
 
-categorySchema.pre('updateMany', function (next) {
-	this._update.slug = slugify(this._update.name, { lower: true }) 
-	next()
-})
+categorySchema.pre("updateMany", function (next) {
+  if (this._update.name)
+    this._update.slug = slugify(this._update.name, { lower: true });
+  next();
+});
 
 const categoryModel = mongoose.model("category", categorySchema);
 

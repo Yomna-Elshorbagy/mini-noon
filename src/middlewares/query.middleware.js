@@ -12,16 +12,17 @@ export const attachAddQuery = (model) => {
 	}
 }
 
-export const attachUpdateQuery = (model) => {
+export const attachUpdateQuery = (model,  fieldName = "slug", paramName = "slug") => {
 	return (req, res, next) => {
-		req.dbQuery = model.updateMany({}, req.body)
+		const fieldValue = req.params[paramName];
+		req.dbQuery = model.updateOne({ [fieldName]: fieldValue }, req.body); 
 		next()
 	}
 }
 
 export const attachDeleteQuery = (model) => {
 	return (req, res, next) => {
-		req.dbQuery = model.deleteMany({})
+		req.dbQuery = model.deleteMany(); 
 		next()
 	}
 }

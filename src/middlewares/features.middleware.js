@@ -1,4 +1,4 @@
-export const filterOne = ({ fieldName, paramName }) => {
+export const  filterOne = ({ fieldName, paramName }) => {
   return (req, res, next) => {
     req.dbQuery = req.dbQuery.where({ [fieldName]: req.params[paramName] });
     next();
