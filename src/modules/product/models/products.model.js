@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from 'slugify'
 
 const productSchema = new mongoose.Schema({
   //product_id if the title not unique
@@ -6,7 +7,7 @@ const productSchema = new mongoose.Schema({
     type: String,
     minLength: 6,
     maxLength: 20,
-    validator,
+    // validator,
   },
   title: {
     type: String,
@@ -31,6 +32,7 @@ const productSchema = new mongoose.Schema({
     trim: true,
   },
   stock: {
+    type: Number,
     min: 0,
     required: true,
   },
@@ -51,7 +53,7 @@ const productSchema = new mongoose.Schema({
   },
   cover_image: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    // required: true,
     ref: "image",
   },
   features: [
@@ -60,6 +62,11 @@ const productSchema = new mongoose.Schema({
       value: String,
     },
   ],
+  subcategory_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "subcategory",
+    required: true,
+  },
 });
 
 productSchema.pre("save", function (next) {
@@ -72,6 +79,10 @@ productSchema.pre("updateMany", function (next) {
   next();
 });
 
+productSchema.pre("findOneAndUpdate", function (next) {
+  this._update.slug = slugify(this._update.title, { lower: true });
+  next();
+});
 const productModel = mongoose.model("product", productSchema);
 
 export default productModel;

@@ -1,4 +1,4 @@
-export const  filterOne = ({ fieldName, paramName }) => {
+export const filterOne = ({ fieldName, paramName }) => {
   return (req, res, next) => {
     req.dbQuery = req.dbQuery.where({ [fieldName]: req.params[paramName] });
     next();
@@ -9,9 +9,10 @@ export const  filterOne = ({ fieldName, paramName }) => {
 export const paginateQuery =
   (pageSize = 5) =>
   (req, res, next) => {
-    let page = +req.query.page || 1;
+    let page = +req.query.page || 1; // if not: make it one
     if (page < 1) page = 1;
 
+    //query chainig
     req.dbQuery = req.dbQuery.skip((page - 1) * pageSize).limit(pageSize);
 
     next();

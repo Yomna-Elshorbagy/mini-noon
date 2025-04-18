@@ -31,7 +31,7 @@ brandSchema.pre("save", function (next) {
   next();
 });
 
-brandSchema.pre("updateMany", function (next) {
+brandSchema.pre("findOneAndUpdate", function (next) {
   this._update.slug = slugify(this._update.title, { lower: true });
   next();
 });
