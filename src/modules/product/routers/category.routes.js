@@ -9,8 +9,13 @@ import categoryModel from "../models/category.model.js";
 import { executeQuery } from "../../../handlers/execute.handler.js";
 import { filterOne } from "../../../middlewares/features.middleware.js";
 import { validate } from "../../../middlewares/validation.middleware.js";
-import { addCategorySchema, deleteCategorySchema, updateCategorySchema } from "../validations/category.validations.js";
-import subcategoriesRouter from './subcategory.routes.js'
+import {
+  addCategorySchema,
+  deleteCategorySchema,
+  updateCategorySchema,
+} from "../validations/category.validations.js";
+import subcategoriesRouter from "./subcategory.routes.js";
+import { checkUniqueData } from "../../../middlewares/check.middleware.js";
 
 const router = Router();
 
@@ -19,6 +24,7 @@ router
   .get(attachFindQuery(categoryModel), executeQuery())
   .post(
     validate(addCategorySchema),
+    checkUniqueData(categoryModel, "name"),
     attachAddQuery(categoryModel),
     executeQuery({ status: 201 })
   );
@@ -29,15 +35,18 @@ router
     attachFindQuery(categoryModel),
     filterOne({ fieldName: "slug", paramName: "categorySlug" }),
     executeQuery()
-  ).put(
+  )
+  .put(
     validate(updateCategorySchema),
+    checkUniqueData(categoryModel, "name"),
     attachUpdateQuery(categoryModel),
-    filterOne({ fieldName: "slug",paramName: "categorySlug" }),
+    filterOne({ fieldName: "slug", paramName: "categorySlug" }),
     executeQuery()
-  ).delete(
+  )
+  .delete(
     validate(deleteCategorySchema),
     attachDeleteQuery(categoryModel),
-    filterOne({ fieldName: "slug",paramName: "categorySlug" }),
+    filterOne({ fieldName: "slug", paramName: "categorySlug" }),
     executeQuery()
   );
 

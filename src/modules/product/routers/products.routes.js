@@ -22,6 +22,7 @@ import {
   selectFieldsQuery,
   sortQuery,
 } from "../../../middlewares/features.middleware.js";
+import { checkUniqueData } from "../../../middlewares/check.middleware.js";
 
 const router = Router();
 
@@ -39,6 +40,7 @@ router
   )
   .post(
     validate(addProductSchema),
+    checkUniqueData(productModel),
     attachAddQuery(productModel),
     executeQuery()
   );
@@ -52,6 +54,7 @@ router
   )
   .put(
     validate(updateProductSchema),
+    checkUniqueData(productModel),
     attachUpdateQuery(productModel),
     filterOne({ fieldName: "slug", paramName: "productSlug" }),
     executeQuery()

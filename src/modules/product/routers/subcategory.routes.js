@@ -18,6 +18,7 @@ import {
   updateSubcategorySchema,
 } from "../validations/subcategory.validations.js";
 import { filterOne } from "../../../middlewares/features.middleware.js";
+import { checkUniqueData } from "../../../middlewares/check.middleware.js";
 
 const router = Router({ mergeParams: true });
 
@@ -30,6 +31,7 @@ router
   )
   .post(
     validate(addSubcategorySchema),
+    checkUniqueData(subcategoryModel, "name"),
     attachCategoryId(),
     attachAddQuery(subcategoryModel),
     executeQuery({ status: 201 })
@@ -51,6 +53,7 @@ router
   )
   .put(
     validate(updateSubcategorySchema),
+    checkUniqueData(subcategoryModel, "name"),
     attachUpdateQuery(subcategoryModel),
     filterOne({ fieldName: "slug", paramName: "subcategorySlug" }),
     attachCategoryId(),
